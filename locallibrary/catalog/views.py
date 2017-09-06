@@ -25,6 +25,7 @@ def index(request):
 
 class BookListView(generic.ListView):
     model = Book
+    template_name='book_list.html'
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -36,6 +37,7 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
+    template_name='book_detail.html'
 
     def book_detail_view(request,pk):
         try:
