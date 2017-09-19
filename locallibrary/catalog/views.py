@@ -70,3 +70,33 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
     
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+
+class authorListView(generic.ListView):
+    model= Author
+    template_name='author_list.html' 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(authorListView, self).get_context_data(**kwargs)
+        # Get the blog from id and add it to the context
+        context['some_data'] = 'This is just some data'
+        return context
+
+
+class authorDetailView(generic.DetailView):
+    model = Author
+    template_name='author_detail.html'
+
+    def author_detail_view(request,pk):
+        try:
+            author_id=Author.objects.get(pk=pk)
+        except Author.DoesNotExist:
+            raise Http404("Author does not exist")
+
+        #book_id=get_object_or_404(Book, pk=pk)
+    
+        return render(
+            request,
+            'author_detail.html',
+            context={'Author':author_id,}
+        )
